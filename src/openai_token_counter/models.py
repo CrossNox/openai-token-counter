@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Literal, Optional, Union
+from typing import List, Literal, Optional, Union
 
 from pydantic import BaseModel
 
@@ -76,6 +76,13 @@ class OpenAIFunctionCall(BaseModel):
     arguments: str  # Json string
 
 
+class OpenAIToolCall(BaseModel):
+
+    id: str
+    function: OpenAIFunctionCall
+    type: Literal["function"]
+
+
 class OpenAIMessage(BaseModel):
     """This is the message object for the OpenAI API."""
 
@@ -83,6 +90,7 @@ class OpenAIMessage(BaseModel):
     content: Optional[str] = None  # Optional in case of] function response
     name: Optional[str] = None
     function_call: Optional[OpenAIFunctionCall] = None
+    tool_calls: Optional[List[OpenAIToolCall]] = None
 
 
 class OpenAIRequest(BaseModel):

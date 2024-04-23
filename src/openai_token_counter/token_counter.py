@@ -111,6 +111,17 @@ class TokenCounter:
 
             tokens += 3  # Additional tokens for function call
 
+        if message.tool_calls:
+            for tool_call in message.tool_calls:
+                # tokens += self.string_tokens(tool_call.id)
+                tokens += self.string_tokens(tool_call.type)
+
+                if tool_call.function.arguments:
+                    tokens += self.string_tokens(tool_call.function.arguments)
+                tokens += self.string_tokens(tool_call.function.name)
+
+                tokens += 7
+
         tokens += 3  # Add three per message
 
         if message.role == "function":
